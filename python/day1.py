@@ -1,8 +1,9 @@
+from typing import Mapping
 
 def readfile():
-    left=[]
-    right=[]
-    with open("../../inputs/day1.txt", "r") as file:
+    left: list[int]=[]
+    right: list[int]=[]
+    with open("../inputs/day1.txt", "r") as file:
         lines = file.readlines()
         for line in lines:
             splitline = line.split('   ')
@@ -19,19 +20,23 @@ def part1():
     distanceScore = 0
     for i in range(len(sortedleft)):
         distanceScore += abs(sortedleft[i] - sortedright[i])
-    print(distanceScore)
+    return distanceScore
 
 
 def part2():
     (left,right) = readfile()
-    similarityscore = 0
-    for i in range(len(left)):
-        countLinR = 0
-        for j in range(len(right)):
-            if left[i] == right[j]:
-                countLinR += 1
-        similarityscore += left[i]*countLinR
-    print(similarityscore)
+    map: Mapping[int,int] = {}
+    for i in right:
+        if i in map:
+            map[i] += 1
+        else:
+            map[i] = 1
+    score=0
+    for i in left:
+        if i in map:
+            score+=i*map[i]
+    return score
 
-part1()
-part2()
+
+print(part1())
+print(part2())
